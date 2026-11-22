@@ -29,7 +29,7 @@
   <div class="title-card">
     <p class="game-name">Ergon <span>a builder's tale</span></p>
     <h1>Thanasis Bekas</h1>
-    <p class="role">Software Engineer</p>
+    <p class="role">Builder | Software Engineer</p>
     <div class="choices">
       <a class="button gold" href="#play">Start adventure</a>
       <a class="button" href="#cv">Read CV</a>
@@ -64,17 +64,11 @@
     <button class="button needs-js" id="print" type="button">Print</button>
   </nav>
 
-  <div data-place="harbour">
-    <header>
-      <h1>Thanasis Bekas</h1>
-      <p class="headline">Software Engineer — Java, Spring Boot, Kafka &amp; Kubernetes</p>
-      <p class="where">Athens, Greece</p>
-    </header>
-    <section>
-      <h2>Summary</h2>
-      <p class="summary">Java software engineer with 4+ years (since March 2022) building Spring Boot microservices for banking and SaaS platforms. On a 40+ microservice e-banking platform I designed and delivered regulatory payee verification and work on PSD2 open-banking APIs, both live in production. I own features end to end, from design doc to production support.</p>
-    </section>
-  </div>
+  <header>
+    <h1>Thanasis Bekas</h1>
+    <p class="headline">Builder | Software Engineer @ Eurobank via Code.Hub | Java, Spring Boot, Kafka | Payments &amp; KYC in e-banking | EU citizen</p>
+    <p class="where">Athens Metropolitan Area</p>
+  </header>
 
   <section data-place="post">
     <h2>Find me</h2>
@@ -83,6 +77,30 @@
       <a href="https://github.com/ThanasisBekas" target="_blank" rel="noopener">GitHub</a>
       <button class="link needs-js" type="button" data-email>Show email</button>
     </p>
+  </section>
+
+  <section data-place="harbour">
+    <h2>About</h2>
+    <p class="summary lead">I like the zero-to-one part: the blank repo, the unclear problem, and the first version that finally works.</p>
+    <p class="summary">I'm a backend engineer with 4+ years of experience (since March 2022) building event-driven production systems in Java, Spring Boot and Kafka. Today I work on the e-banking platform behind Eurobank's web and mobile banking.</p>
+    <h3>Now: Code.Hub, working full-time with Eurobank's e-banking team</h3>
+    <p class="summary">I own features end to end, from turning unclear business and regulatory requirements into a plan with product owners and analysts, through to release and production support. I've committed code to more than 40 of the platform's microservices and shared libraries. Live in production:</p>
+    <ul>
+      <li>Verification of Payee on business payroll payments: I designed the solution across five services, got it agreed and was its main backend developer. Kafka and RabbitMQ flows, an idempotency key on every batch, and a Spring Batch reconciliation job I proposed and built, so no payroll waits on an incomplete verification.</li>
+      <li>OCR document extraction for corporate KYC onboarding with Azure AI Document Intelligence, later redesigned behind a provider port, removing about 1,300 lines of legacy code.</li>
+      <li>A consumer-protection module for contract documents and the right of withdrawal across cards, deposits and investment products, which I created and am the main contributor to.</li>
+    </ul>
+    <p class="summary">I've also worked on PSD2 strong customer authentication, and for three months I acted as technical lead, driving planning and technical decisions and mentoring four engineers.</p>
+    <h3>Before: Velti</h3>
+    <p class="summary">I moved legacy Java 8 product functionality onto a Java 17 / Spring Boot 3 microservices platform. On my own, I built Environment Manager, an internal deployment dashboard that the dev and QA teams used every day.</p>
+    <h3>Outside work, I build my own platforms, spec-driven with AI coding agents:</h3>
+    <ul>
+      <li>Routify: a multi-tenant API gateway platform with eight Spring services and a React dashboard covering routing, tenant identity, certificates, GitOps reconciliation and observability.</li>
+      <li>Zentry: an early-stage fraud-decisioning platform built with Go, gRPC, Temporal, Redpanda, FastAPI and React.</li>
+      <li>Currently: a deterministic rules engine that checks an AI agent's actions before they run, for fintechs and banks.</li>
+    </ul>
+    <p class="summary lead">I do my best work when there's something real to build, a hard problem to untangle, and a team that cares about the craft.</p>
+    <p class="context">Core stack: Java, Spring Boot, Kafka, RabbitMQ, SQL Server, PostgreSQL, Kubernetes, Azure, React, Go.</p>
   </section>
 
   <section data-place="board">
@@ -96,35 +114,66 @@
   </section>
 
   <section>
-    <h2>Professional Experience</h2>
-    <article data-place="treasury">
-      <h3>Software Engineer</h3>
-      <p class="organization">Code.Hub (client: Eurobank) | Athens, Greece — Hybrid</p>
-      <p class="date">April 2025 – Present</p>
-      <p class="context">Web and mobile e-banking platform (40+ microservices) | 10-person Scrum team | Java, Spring Boot, Kafka, RabbitMQ, SQL Server, Kubernetes, OpenShift</p>
-      <ul>
-        <li>Designed regulatory Verification of Payee for payroll payments across five services and delivered it as main backend developer, live in production: Kafka callbacks, a RabbitMQ API, Spring Batch reconciliation.</li>
-        <li>Work on PSD2 open-banking (XS2A) APIs for third-party providers, live in production; worked on customer-facing strong customer authentication; built a rule-based role-eligibility authorisation engine, live in production.</li>
-        <li>Built OCR extraction for corporate KYC (Azure AI Document Intelligence integration), redesigned it behind a provider port removing ~1,300 legacy lines, and created a consumer-protection module; both features live in production.</li>
-        <li>Own REST features from design doc to production: Spock tests, Dockerfiles, Kubernetes manifests, ArgoCD GitOps, Grafana dashboards and alerts, L3 support (with the team) and root-cause write-ups.</li>
-        <li>Acted as technical lead for three months, mentoring four engineers; gave an internal talk on AI-assisted development.</li>
-      </ul>
-    </article>
+    <h2>Experience</h2>
+    <div data-place="treasury">
+      <article>
+        <h3>Software Engineer (via Code.Hub)</h3>
+        <p class="organization">Eurobank</p>
+        <p class="date">April 2025 – Present</p>
+        <p class="where">Athens, Attiki, Greece</p>
+        <p class="context">E-banking platform of 40+ microservices serving the web and mobile banking apps; 10-person cross-functional team. Placed by my employer, Code.Hub.</p>
+        <p class="summary">I own features end to end with product owners and business analysts, from discovery to release, monitoring and support.</p>
+        <ul>
+          <li>Designed Verification of Payee for payroll payments across five services and was its main backend developer (live): bulk verification to DIAS, results over Kafka, batches over RabbitMQ, an idempotency key per batch.</li>
+          <li>Proposed and built a Spring Batch reconciliation job for incomplete verifications, and a reusable Spring AOP aspect that gates scheduled jobs on their feature flags.</li>
+          <li>Built OCR extraction for corporate KYC onboarding (live) on Azure AI Document Intelligence with Kafka outcome events; later redesigned it behind a provider port, removing ~1,300 lines of legacy code.</li>
+          <li>Created, and am the main contributor to, a consumer-protection module (live): contract-document storage and the right of withdrawal across cards, deposits and investments.</li>
+          <li>Acted as technical lead for three months: planning, technical decisions, mentoring four engineers.</li>
+          <li>Delivered loan top-up and refinancing (live): loan wizard, eligibility and amount APIs behind feature flags, six new products.</li>
+          <li>Worked on PSD2 strong customer authentication (OTP eligibility, SMS second factor).</li>
+          <li>Integrated document generation and storage via Spring Integration, with Resilience4j circuit breakers and retries.</li>
+          <li>Brought services onto Kubernetes (manifests, Dockerfiles, Kustomize / ArgoCD GitOps) and helped teammates adopt it.</li>
+          <li>Investigate and fix escalated production issues (L3 support, with the team).</li>
+          <li>Built parts of the KYC onboarding UI in React from UX designs.</li>
+        </ul>
+        <p class="context">Stack: Java 11–25, Spring Boot 2.7–4, Kafka, RabbitMQ, Spring Batch, SQL Server, Kubernetes, Azure, React.</p>
+      </article>
+      <article>
+        <h3>Software Engineer</h3>
+        <p class="organization">Code.Hub</p>
+        <p class="date">April 2025 – Present</p>
+        <p class="where">Athens, Attiki, Greece</p>
+        <p class="context">Software Engineer at Code.Hub, placed at its client Eurobank since April 2025. The engineering work is listed under the Eurobank entry.</p>
+        <ul>
+          <li>Work directly with Eurobank's product owners, business analysts and stakeholders.</li>
+          <li>Give internal tech talks and knowledge-sharing sessions.</li>
+        </ul>
+      </article>
+    </div>
     <article data-place="windmill">
       <h3>Software Engineer</h3>
-      <p class="organization">Velti | Athens, Greece — Remote</p>
+      <p class="organization">Velti</p>
       <p class="date">March 2022 – April 2025</p>
-      <p class="context">SaaS customer-engagement platform for telecom and retail brands | Java 8–21, Spring Boot, Kafka, PostgreSQL, Oracle, Redis, Jenkins</p>
+      <p class="where">Athens, Attiki, Greece</p>
+      <p class="context">Customer-engagement and campaign platform (Sympan, delivered as SaaS) and client campaign apps for telecom and retail brands, in a team of about 15 engineers.</p>
       <ul>
-        <li>Migrated legacy Java 8 / Oracle product functionality onto a Java 17 / Spring Boot 3 microservices platform, and worked across 18 of its 21 modules.</li>
-        <li>Implemented Kafka request-reply with duplicate-event detection and failed-event storage; fixed a memory-limit failure in exports of 200,000+ users and improved Spring Batch jobs for thread safety.</li>
-        <li>Built Environment Manager alone: a Spring Boot dashboard the dev and QA teams used daily to deploy, start and stop environments, run health checks and trigger Jenkins builds.</li>
+        <li>Migrated legacy Java 8 / Oracle product functionality (Excite) onto Sympan's Java 17 / Spring Boot 3 microservices platform, and features from three legacy products into it to reduce duplication.</li>
+        <li>Built Environment Manager on my own: an internal Spring Boot tool to deploy, start, stop and health-check product environments, trigger Jenkins builds and reach each project's database. Used daily by the dev and QA teams.</li>
+        <li>Automated deployments in it: per-build deploy scripts, a queued auto-deployment flow, and scheduled health, status and clean-up jobs.</li>
+        <li>Worked across 18 of Sympan's 21 modules, mostly audience, messaging and shared modules.</li>
+        <li>Built the Control Group feature (Spring Batch jobs, Redis cache, REST endpoints documented with OpenAPI) and fixed a memory-limit failure in exports of 200,000+ users.</li>
+        <li>Implemented Kafka request-reply and an aspect that detects duplicate events and stores failed ones.</li>
+        <li>Encrypted and anonymised customer-profile data, and refactored the API gateway's encryption filters.</li>
+        <li>Built an integration-test harness for mobile-operator subscription flows with about 24 operator-specific handlers.</li>
+        <li>Investigated and fixed production incidents, and optimised slow PostgreSQL / Oracle queries (indexes, execution plans).</li>
+        <li>Created a reusable Spring Boot web-app starter; the Otelo campaign backend was rebuilt on it the next day. Built backends for Otelo and Victorinox campaign apps.</li>
       </ul>
+      <p class="context">Stack: Java 8–21, Spring Boot 2–3, Kafka, Spring Batch, PostgreSQL, Oracle, Redis, Liquibase, REST, GraphQL, Jenkins, Selenium.</p>
     </article>
   </section>
 
   <section>
-    <h2>Selected Projects</h2>
+    <h2>Projects</h2>
     <article data-place="aqueduct">
       <h3>Routify — Multi-Tenant API Gateway Platform</h3>
       <p class="project-meta">Personal project, designed and built with AI coding agents | Java 25, Spring Boot 4, Spring Cloud Gateway, Kafka, RabbitMQ, Redis, Helm</p>
@@ -158,7 +207,8 @@
   </section>
 
   <section class="skills" data-place="forge">
-    <h2>Technical Skills</h2>
+    <h2>Skills</h2>
+    <p>Top skills: Banking, Payments, Mentoring</p>
     <p><strong>Languages:</strong> Java (8–25, concurrency, virtual threads), SQL, T-SQL, PL/SQL, Go, Python, TypeScript</p>
     <p><strong>Backend &amp; APIs:</strong> Spring Boot, Spring Security, Spring Batch, JPA / Hibernate, REST, OpenAPI, SOAP, gRPC</p>
     <p><strong>Distributed Systems:</strong> Microservices, Event-Driven Architecture, Apache Kafka, RabbitMQ, dead-letter queues</p>
@@ -170,12 +220,14 @@
   <div data-place="library">
     <section>
       <h2>Education</h2>
-      <p><strong>Computer Science &amp; Engineering Coursework — University of Ioannina, 2016 – 2021</strong></p>
+      <h3>University of Ioannina</h3>
+      <p class="organization">Computer Science &amp; Engineering coursework</p>
+      <p class="date">September 2016 – September 2021</p>
       <p>Degree not conferred.</p>
     </section>
     <section>
       <h2>Languages</h2>
-      <p>Greek — Native | English — Fluent (C1) | German — currently learning (A1)</p>
+      <p>Greek — Native or bilingual | English — Full professional (C1) | German — Elementary, currently learning (A1)</p>
     </section>
   </div>
 </main>

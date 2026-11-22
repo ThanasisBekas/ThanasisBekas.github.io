@@ -93,6 +93,8 @@ h2 { margin: 28px 0 8px; padding-bottom: 4px; border-bottom: 3px solid var(--gol
 h3 { margin: 22px 0 2px; font-size: 19px; }
 p { margin: 6px 0; overflow-wrap: anywhere; }
 .headline, .organization { font-weight: 650; }
+.lead { color: var(--ink); font-size: 18px; font-weight: 600; }
+article + article, div + article { margin-top: 28px; }
 .where, .date, .context, .project-meta, figcaption { color: #51504c; font-size: 15px; }
 ul { margin: 10px 0; padding-left: 22px; }
 li { margin: 7px 0; }
