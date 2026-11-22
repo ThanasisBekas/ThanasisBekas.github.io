@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thanasis Bekas, Software Engineer</title>
+<meta name="description" content="Portfolio of Thanasis Bekas, Java and Spring Boot software engineer. Explore the experience and projects as a retro island adventure, or read the plain CV.">
+<meta name="theme-color" content="#14213d">
+<meta property="og:title" content="Thanasis Bekas, Software Engineer">
+<meta property="og:description" content="Experience and projects as a retro island adventure, with a plain CV one click away.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://thanasisbekas.github.io/">
+<link rel="canonical" href="https://thanasisbekas.github.io/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/src/style.css">
+<script>
+  document.documentElement.dataset.mode = location.hash === '#cv' ? 'cv' : location.hash === '#play' ? 'game' : 'title';
+  window.addEventListener('load', function () {
+    if (document.documentElement.dataset.ready === undefined) delete document.documentElement.dataset.mode;
+  });
+</script>
+<script type="module" src="/src/main.ts"></script>
+</head>
+<body>
+
+<canvas id="world" tabindex="-1" role="application" aria-label="Island map. Arrow keys or W A S D walk, Enter opens a door, Space uses the lantern, M opens the list of places."></canvas>
+
+<main id="title">
+  <div class="title-card">
+    <p class="game-name">Ergon <span>a builder's tale</span></p>
+    <h1>Thanasis Bekas</h1>
+    <p class="role">Software Engineer</p>
+    <div class="choices">
+      <a class="button gold" href="#play">Start adventure</a>
+      <a class="button" href="#cv">Read CV</a>
+    </div>
+    <p class="small">An island where every building is part of my work.</p>
+  </div>
+</main>
+
+<main id="game">
+  <h1 class="sr-only">Ergon, the portfolio game of Thanasis Bekas</h1>
+  <div class="hud">
+    <div class="stats">
+      <span>Beacons <b id="beacons">0/5</b></span>
+      <span>Bugs fixed <b id="bugs">0/8</b></span>
+    </div>
+    <div class="hud-actions">
+      <button class="button" id="sound" type="button" aria-pressed="false">Sound off</button>
+      <a class="button gold" href="#cv">Read CV</a>
+    </div>
+  </div>
+  <p class="toast" id="toast" role="status"></p>
+  <div class="controls">
+    <button class="button" id="open-map" type="button">Map</button>
+    <button class="button gold" id="enter" type="button" hidden>Enter</button>
+    <button class="button" id="lantern" type="button">Lantern</button>
+  </div>
+</main>
+
+<main id="cv" class="resume" tabindex="-1">
+  <nav class="cv-nav" aria-label="Site">
+    <a class="button gold" href="#play">Play the island</a>
+    <button class="button needs-js" id="print" type="button">Print</button>
+  </nav>
+
+  <div data-place="harbour">
+    <header>
+      <h1>Thanasis Bekas</h1>
+      <p class="headline">Software Engineer — Java, Spring Boot, Kafka &amp; Kubernetes</p>
+      <p class="where">Athens, Greece</p>
+    </header>
+    <section>
+      <h2>Summary</h2>
+      <p class="summary">Java software engineer with 4+ years (since March 2022) building Spring Boot microservices for banking and SaaS platforms. On a 40+ microservice e-banking platform I designed and delivered regulatory payee verification and work on PSD2 open-banking APIs, both live in production. I own features end to end, from design doc to production support.</p>
+    </section>
+  </div>
+
+  <section data-place="post">
+    <h2>Find me</h2>
+    <p class="links">
+      <a href="https://linkedin.com/in/thanasis-bekas" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/ThanasisBekas" target="_blank" rel="noopener">GitHub</a>
+      <button class="link needs-js" type="button" data-email>Show email</button>
+    </p>
+  </section>
+
+  <section data-place="board">
+    <h2>In numbers</h2>
+    <ul class="numbers">
+      <li>4+ years as a professional software engineer, since March 2022</li>
+      <li>Committed to 40+ microservices on the e-banking platform</li>
+      <li>Worked across 18 of the 21 modules of Velti's platform</li>
+      <li>Mentored four engineers as acting technical lead for three months</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Professional Experience</h2>
+    <article data-place="treasury">
+      <h3>Software Engineer</h3>
+      <p class="organization">Code.Hub (client: Eurobank) | Athens, Greece — Hybrid</p>
+      <p class="date">April 2025 – Present</p>
+      <p class="context">Web and mobile e-banking platform (40+ microservices) | 10-person Scrum team | Java, Spring Boot, Kafka, RabbitMQ, SQL Server, Kubernetes, OpenShift</p>
+      <ul>
+        <li>Designed regulatory Verification of Payee for payroll payments across five services and delivered it as main backend developer, live in production: Kafka callbacks, a RabbitMQ API, Spring Batch reconciliation.</li>
+        <li>Work on PSD2 open-banking (XS2A) APIs for third-party providers, live in production; worked on customer-facing strong customer authentication; built a rule-based role-eligibility authorisation engine, live in production.</li>
+        <li>Built OCR extraction for corporate KYC (Azure AI Document Intelligence integration), redesigned it behind a provider port removing ~1,300 legacy lines, and created a consumer-protection module; both features live in production.</li>
+        <li>Own REST features from design doc to production: Spock tests, Dockerfiles, Kubernetes manifests, ArgoCD GitOps, Grafana dashboards and alerts, L3 support (with the team) and root-cause write-ups.</li>
+        <li>Acted as technical lead for three months, mentoring four engineers; gave an internal talk on AI-assisted development.</li>
+      </ul>
+    </article>
+    <article data-place="windmill">
+      <h3>Software Engineer</h3>
+      <p class="organization">Velti | Athens, Greece — Remote</p>
+      <p class="date">March 2022 – April 2025</p>
+      <p class="context">SaaS customer-engagement platform for telecom and retail brands | Java 8–21, Spring Boot, Kafka, PostgreSQL, Oracle, Redis, Jenkins</p>
+      <ul>
+        <li>Migrated legacy Java 8 / Oracle product functionality onto a Java 17 / Spring Boot 3 microservices platform, and worked across 18 of its 21 modules.</li>
+        <li>Implemented Kafka request-reply with duplicate-event detection and failed-event storage; fixed a memory-limit failure in exports of 200,000+ users and improved Spring Batch jobs for thread safety.</li>
+        <li>Built Environment Manager alone: a Spring Boot dashboard the dev and QA teams used daily to deploy, start and stop environments, run health checks and trigger Jenkins builds.</li>
+      </ul>
+    </article>
+  </section>
+
+  <section>
+    <h2>Selected Projects</h2>
+    <article data-place="aqueduct">
+      <h3>Routify — Multi-Tenant API Gateway Platform</h3>
+      <p class="project-meta">Personal project, designed and built with AI coding agents | Java 25, Spring Boot 4, Spring Cloud Gateway, Kafka, RabbitMQ, Redis, Helm</p>
+      <ul>
+        <li>Built eight Spring services and a React dashboard; transactional-outbox Kafka events and RabbitMQ request/reply push route changes to every gateway without restarts.</li>
+        <li>Added tenant isolation from JWT claims, per-tenant Redis quotas, RS256 JWT identity, mTLS, RBAC and API keys.</li>
+      </ul>
+      <figure>
+        <img src="/img/routify-route-builder.webp" width="1080" height="340" loading="lazy" alt="Routify route builder showing a demo route with its filters and upstream service">
+        <figcaption>The route builder, with demo data</figcaption>
+      </figure>
+      <p class="links"><a href="https://github.com/ThanasisBekas/Routify" target="_blank" rel="noopener">Routify on GitHub</a></p>
+    </article>
+    <article data-place="watchtower">
+      <h3>Zentry — Fraud Decisioning and Analyst Review</h3>
+      <p class="project-meta">Personal project in progress, runs locally, designed and built with AI coding agents | Go, gRPC, Temporal, Redpanda, PostgreSQL, Redis, FastAPI, React</p>
+      <ul>
+        <li>Building a fraud-decisioning engine in Go and gRPC that returns allow, step up, block or review, with Temporal workflows and an analyst review screen.</li>
+        <li>Added policy-based authorisation with OPA/Rego and SpiceDB, Prometheus metrics and Grafana dashboards.</li>
+      </ul>
+      <p class="links"><a href="https://github.com/ThanasisBekas/Zentry" target="_blank" rel="noopener">Zentry on GitHub</a></p>
+    </article>
+    <article data-place="hut">
+      <h3>Powzi — iPhone App for Greek Ski Resorts</h3>
+      <p class="project-meta">Personal project in a small friends-and-family TestFlight beta, not released, built with Claude Code | Swift, SwiftUI, SceneKit, Supabase, PostgreSQL, TypeScript</p>
+      <ul>
+        <li>Built a native iPhone app for Greek ski resorts with blended weather, 3D piste maps for eight resorts, a trip planner and crew chat.</li>
+        <li>Built its Supabase backend with row-level security per role, an audit log, scheduled jobs and 65 automated backend tests.</li>
+      </ul>
+    </article>
+  </section>
+
+  <section class="skills" data-place="forge">
+    <h2>Technical Skills</h2>
+    <p><strong>Languages:</strong> Java (8–25, concurrency, virtual threads), SQL, T-SQL, PL/SQL, Go, Python, TypeScript</p>
+    <p><strong>Backend &amp; APIs:</strong> Spring Boot, Spring Security, Spring Batch, JPA / Hibernate, REST, OpenAPI, SOAP, gRPC</p>
+    <p><strong>Distributed Systems:</strong> Microservices, Event-Driven Architecture, Apache Kafka, RabbitMQ, dead-letter queues</p>
+    <p><strong>Data &amp; Cloud:</strong> SQL Server, PostgreSQL, Oracle, Redis, Docker, Kubernetes, OpenShift, Azure (AKS, platform consumer), ArgoCD, Git, Jenkins CI/CD</p>
+    <p><strong>Security &amp; Quality:</strong> OAuth2, JWT, PSD2 SCA, mTLS, Spock, JUnit, Testcontainers, SonarQube, Prometheus, Grafana</p>
+    <p><strong>Ways of Working:</strong> Scrum, code review, design docs, Domain Driven Design, AI-assisted development (Claude Code)</p>
+  </section>
+
+  <div data-place="library">
+    <section>
+      <h2>Education</h2>
+      <p><strong>Computer Science &amp; Engineering Coursework — University of Ioannina, 2016 – 2021</strong></p>
+      <p>Degree not conferred.</p>
+    </section>
+    <section>
+      <h2>Languages</h2>
+      <p>Greek — Native | English — Fluent (C1) | German — currently learning (A1)</p>
+    </section>
+  </div>
+</main>
+
+<dialog id="story" aria-labelledby="story-name">
+  <div class="dialog-bar">
+    <p class="dialog-name" id="story-name"></p>
+    <button class="button" type="button" data-close>Close</button>
+  </div>
+  <div class="dialog-body" id="story-body" tabindex="0" role="region" aria-labelledby="story-name"></div>
+</dialog>
+
+<dialog id="map" aria-labelledby="map-name">
+  <div class="dialog-bar">
+    <p class="dialog-name" id="map-name">The island</p>
+    <button class="button" type="button" data-close>Close</button>
+  </div>
+  <div class="dialog-body">
+    <canvas id="minimap" aria-hidden="true"></canvas>
+    <p>Choose a place and the builder goes there.</p>
+    <div class="places" id="places"></div>
+  </div>
+</dialog>
+
+<dialog id="credits" aria-labelledby="credits-name">
+  <div class="dialog-bar">
+    <p class="dialog-name" id="credits-name">Every beacon is lit</p>
+    <button class="button" type="button" data-close>Keep exploring</button>
+  </div>
+  <div class="dialog-body credits">
+    <p class="game-name">Ergon <span>a builder's tale</span></p>
+    <p>You have seen both jobs and all three projects.</p>
+    <p>Thank you for walking the island.</p>
+    <div class="choices">
+      <button class="button gold" id="credits-contact" type="button">Find me</button>
+      <a class="button" href="#cv">Read CV</a>
+    </div>
+  </div>
+</dialog>
+
+</body>
+</html>

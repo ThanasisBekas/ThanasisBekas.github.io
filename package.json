@@ -1,0 +1,18 @@
+{
+  "name": "thanasisbekas.github.io",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "devDependencies": {
+    "@axe-core/playwright": "4.14.0",
+    "@fontsource/pixelify-sans": "5.3.0",
+    "lighthouse": "13.6.0",
+    "typescript": "7.0.2",
+    "vite": "8.3.8"
+  },
+  "scripts": {
+    "dev": "vite --port 5273 --strictPort",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --port 4391 --strictPort"
+  }
+}
