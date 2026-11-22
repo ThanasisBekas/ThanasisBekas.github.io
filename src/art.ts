@@ -1,5 +1,5 @@
 // Every sprite and tile is drawn here in code. There are no borrowed assets.
-import { T, W, H, groundAt, noise, type Place, type Prop } from './world';
+import { T, W, H, groundAt, noise, type Islander, type Place, type Prop } from './world';
 
 type G = CanvasRenderingContext2D;
 export type Facing = 'up' | 'down' | 'left' | 'right';
@@ -372,4 +372,57 @@ export function drawBug(g: G, x: number, y: number, time: number): void {
   box(g, x - 3, y - 11, 6, 4, INK);
   box(g, x - 2, y - 10, 1, 1, '#fac775');
   box(g, x + 1, y - 10, 1, 1, '#fac775');
+}
+
+/** An islander faces the builder. A question bubble shows until they have talked. */
+export function drawIslander(g: G, p: Islander, heroX: number, met: boolean, time: number): void {
+  const x = p.x * T;
+  const feet = p.y * T + 11;
+  const breath = Math.floor(time * 1.4 + p.x) % 2;
+  const y = feet - 22 + breath;
+  const look = heroX < x - 4 ? -1 : heroX > x + T + 4 ? 1 : 0;
+
+  box(g, x + 2, feet - 1, 12, 3, 'rgba(20,33,61,.28)');
+  box(g, x + 4, feet - 4, 3, 4, INK);
+  box(g, x + 9, feet - 4, 3, 4, INK);
+  box(g, x + 2, y + 9, 12, 10 - breath, INK);
+  box(g, x + 3, y + 10, 10, 8 - breath, p.coat);
+  box(g, x + 1, y + 12, 2, 4, p.skin);
+  box(g, x + 13, y + 12, 2, 4, p.skin);
+  box(g, x + 4, y + 3, 8, 7, p.skin);
+  box(g, x + 5 + look, y + 5, 2, 2, INK);
+  box(g, x + 9 + look, y + 5, 2, 2, INK);
+  box(g, x + 3, y, 10, 4, p.hat);
+
+  switch (p.id) {
+    case 'shipwright':
+      box(g, x + 14, y + 9, 2, 8, '#633806');
+      box(g, x + 12, y + 8, 6, 3, INK);
+      break;
+    case 'traveller':
+      box(g, x + 1, y + 3, 14, 2, p.hat);
+      box(g, x, y + 10, 2, 12 - breath, '#633806');
+      break;
+    case 'miller':
+      box(g, x + 5, y + 11, 6, 7 - breath, '#d9b877');
+      break;
+    case 'clerk':
+      box(g, x + 10, y + 12, 6, 6, '#fff8e7');
+      box(g, x + 12, y + 14, 2, 1, INK);
+      break;
+    case 'lamplighter':
+      box(g, x + 15, y + 2, 2, 20 - breath, '#633806');
+      box(g, x + 14, y - 2, 4, 5, '#fac775');
+      break;
+  }
+
+  if (met) return;
+  box(g, x + 2, y - 14, 12, 11, INK);
+  box(g, x + 3, y - 13, 10, 9, '#fff8e7');
+  box(g, x + 6, y - 4, 4, 2, '#fff8e7');
+  box(g, x + 6, y - 12, 4, 1, INK);
+  box(g, x + 9, y - 11, 1, 2, INK);
+  box(g, x + 7, y - 9, 2, 1, INK);
+  box(g, x + 7, y - 8, 1, 1, INK);
+  box(g, x + 7, y - 6, 1, 1, INK);
 }

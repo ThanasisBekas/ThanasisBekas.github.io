@@ -30,6 +30,26 @@ export const PLACES: Place[] = [
   { id: 'post', name: 'Post house', x: 29, y: 23, w: 4, h: 3 },
 ];
 
+export type IslanderId = 'shipwright' | 'traveller' | 'miller' | 'clerk' | 'lamplighter';
+
+/** Someone who asks the builder a question. The words live in index.html. */
+export interface Islander {
+  id: IslanderId;
+  name: string;
+  x: number; y: number;
+  /** The tile the builder walks to for a talk. */
+  stand: Point;
+  coat: string; hat: string; skin: string;
+}
+
+export const ISLANDERS: Islander[] = [
+  { id: 'shipwright', name: 'Shipwright', x: 29, y: 34, stand: { x: 28, y: 34 }, coat: '#185fa5', hat: '#854f0b', skin: '#c68654' },
+  { id: 'traveller', name: 'Traveller', x: 33, y: 27, stand: { x: 32, y: 27 }, coat: '#993c1d', hat: '#5f5e5a', skin: '#e3a47c' },
+  { id: 'miller', name: 'Miller', x: 23, y: 13, stand: { x: 24, y: 13 }, coat: '#f1efe8', hat: '#b4b2a9', skin: '#f5c4b3' },
+  { id: 'clerk', name: 'Clerk', x: 17, y: 13, stand: { x: 16, y: 13 }, coat: '#444441', hat: '#fac775', skin: '#a9683f' },
+  { id: 'lamplighter', name: 'Lamplighter', x: 21, y: 29, stand: { x: 20, y: 29 }, coat: '#712b13', hat: '#ef9f27', skin: '#e3a47c' },
+];
+
 export const doorOf = (p: Place): Point => ({ x: p.x + Math.floor(p.w / 2), y: p.y + p.h });
 
 export const START: Point = { x: 27, y: 34 };
@@ -118,6 +138,12 @@ function generate(): void {
     }
   }
 
+  // Nothing grows where people stand and talk.
+  for (const p of ISLANDERS) {
+    props.delete(index(p.x, p.y));
+    props.delete(index(p.stand.x, p.stand.y));
+  }
+
   for (let y = 0; y < H; y++) {
     for (let x = 0; x < W; x++) {
       const g = groundAt(x, y);
@@ -129,6 +155,7 @@ function generate(): void {
       for (let x = p.x; x < p.x + p.w; x++) solid[index(x, y)] = 1;
     }
   }
+  for (const p of ISLANDERS) solid[index(p.x, p.y)] = 1;
 }
 
 generate();

@@ -1,6 +1,6 @@
-import { Game, type Mode } from './game';
+import { Game, isIslander, type Mode, type Target } from './game';
 import { play, toggleSound } from './sound';
-import { PLACES, type Place } from './world';
+import { ISLANDERS, PLACES, type Islander, type Place } from './world';
 
 const el = <E extends HTMLElement>(id: string) => document.getElementById(id) as E;
 
@@ -18,7 +18,7 @@ const toast = el('toast');
 
 const quests = PLACES.filter(p => p.quest);
 const lit = new Set<string>();
-let current: Place | null = null;
+let current: Target | null = null;
 let toastTimer = 0;
 let welcomed = false;
 let creditsShown = false;
@@ -27,6 +27,39 @@ function say(text: string, ms = 4000): void {
   toast.textContent = text;
   clearTimeout(toastTimer);
   toastTimer = window.setTimeout(() => { toast.textContent = ''; }, ms);
+}
+
+function open(target: Target): void {
+  if (isIslander(target)) openTalk(target);
+  else openStory(target);
+}
+
+function openTalk(person: Islander): void {
+  const thought = cv.querySelector(`[data-thought="${person.id}"]`);
+  if (!thought) return;
+  game.stop();
+  current = person;
+  toast.textContent = '';
+  storyName.textContent = person.name;
+
+  const talk = document.createElement('div');
+  talk.className = 'talk';
+  talk.dataset.story = person.id;
+  for (const [who, selector, side] of [[person.name, '.question', 'them'], ['Thanasis', '.answer', 'me']] as const) {
+    const bubble = document.createElement('div');
+    bubble.className = `bubble ${side}`;
+    const name = document.createElement('p');
+    name.className = 'speaker';
+    name.textContent = who;
+    const words = document.createElement('p');
+    words.textContent = thought.querySelector(selector)?.textContent ?? '';
+    bubble.append(name, words);
+    talk.append(bubble);
+  }
+  storyBody.replaceChildren(talk);
+  if (!story.open) story.showModal();
+  storyBody.scrollTop = 0;
+  play('open');
 }
 
 function openStory(place: Place): void {
@@ -55,11 +88,13 @@ function openStory(place: Place): void {
 }
 
 const game = new Game(world, {
-  open: openStory,
-  near(place) {
-    enter.hidden = !place;
-    enter.textContent = place ? (place.id === 'board' || place.id === 'harbour' ? 'Read' : 'Enter') : '';
-    if (place) enter.setAttribute('aria-label', `${enter.textContent}: ${place.name}`);
+  open,
+  near(target) {
+    enter.hidden = !target;
+    if (!target) return;
+    const verb = isIslander(target) ? 'Talk' : target.id === 'board' || target.id === 'harbour' ? 'Read' : 'Enter';
+    enter.textContent = verb;
+    enter.setAttribute('aria-label', `${verb}: ${target.name}`);
   },
   fixed(count, total) {
     el('bugs').textContent = `${count}/${total}`;
@@ -73,9 +108,13 @@ story.addEventListener('close', () => {
   if (story.open) return;
   const place = current;
   current = null;
-  if (root.dataset.mode !== 'game') return;
+  if (root.dataset.mode !== 'game' || !place) return;
   world.focus();
-  if (!place?.quest || lit.has(place.id)) return;
+  if (isIslander(place)) {
+    game.meet(place);
+    return;
+  }
+  if (!place.quest || lit.has(place.id)) return;
 
   lit.add(place.id);
   game.light(place);
@@ -109,6 +148,18 @@ const placeButtons = PLACES.map(place => {
   el('places').append(button);
   return { place, button };
 });
+
+for (const person of ISLANDERS) {
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = 'button';
+  button.textContent = person.name;
+  button.addEventListener('click', () => {
+    map.close();
+    game.travel(person);
+  });
+  el('people').append(button);
+}
 
 function openMap(): void {
   game.stop();
@@ -172,8 +223,8 @@ function show(mode: Mode): void {
     if (!welcomed) {
       welcomed = true;
       say(matchMedia('(pointer: coarse)').matches
-        ? 'Tap the ground to walk, or a building to go inside.'
-        : 'Walk with the arrow keys or click. Click a building to go inside.', 6500);
+        ? 'Tap the ground to walk. Tap a building or a person to find out more.'
+        : 'Walk with the arrow keys or click. Click a building or a person to find out more.', 6500);
     }
   } else if (mode === 'cv') {
     scrollTo(0, 0);

@@ -1,16 +1,21 @@
-import { drawBeacon, drawBug, drawHero, drawPlace, drawProp, paintGround, type Facing } from './art';
+import { drawBeacon, drawBug, drawHero, drawIslander, drawPlace, drawProp, paintGround, type Facing } from './art';
 import { play } from './sound';
 import {
-  BUG_SPAWNS, H, PLACES, START, T, W,
+  BUG_SPAWNS, H, ISLANDERS, PLACES, START, T, W,
   doorOf, findPath, groundAt, noise, props, walkable,
-  type Place, type Point,
+  type Islander, type Place, type Point,
 } from './world';
 
 export type Mode = 'title' | 'game' | 'cv';
 
+/** Anything the builder can open: a building or a person. */
+export type Target = Place | Islander;
+export const isIslander = (t: Target): t is Islander => 'stand' in t;
+const spotOf = (t: Target): Point => (isIslander(t) ? t.stand : doorOf(t));
+
 interface Events {
-  open(place: Place): void;
-  near(place: Place | null): void;
+  open(target: Target): void;
+  near(target: Target | null): void;
   fixed(count: number, total: number): void;
   say(text: string): void;
   paused(): boolean;
@@ -50,16 +55,17 @@ export class Game {
   private moving = false;
   private step = 0;
   private route: Point[] = [];
-  private destination: Place | null = null;
+  private destination: Target | null = null;
   private speed = WALK;
   private held = new Set<string>();
-  private nearby: Place | null = null;
+  private nearby: Target | null = null;
 
   private bugs: Bug[] = BUG_SPAWNS.map(t => ({ ...centre(t), vx: 0, vy: 0, wait: 0 }));
   private sparks: Spark[] = [];
   private glow = 0;
   private warned = false;
   private lit = new Set<string>();
+  private met = new Set<string>();
 
   private scale = 3;
   private camera: Point = { x: 0, y: 0 };
@@ -99,23 +105,36 @@ export class Game {
     this.lit.add(place.id);
   }
 
-  enter(): void {
-    if (!this.nearby) return;
-    const place = this.nearby;
-    this.stop();
-    this.events.open(place);
+  meet(islander: Islander): void {
+    this.met.add(islander.id);
   }
 
-  travel(place: Place): void {
+  enter(): void {
+    if (!this.nearby) return;
+    const target = this.nearby;
     this.stop();
-    const door = doorOf(place);
+    this.arrive(target);
+  }
+
+  travel(target: Target): void {
+    this.stop();
+    const spot = spotOf(target);
     if (this.still.matches) {
-      this.hero = centre(door);
-      this.facing = 'up';
-      this.events.open(place);
+      this.hero = centre(spot);
+      this.arrive(target);
     } else {
-      this.walkTo(door, place, TRAVEL);
+      this.walkTo(spot, target, TRAVEL);
     }
+  }
+
+  private arrive(target: Target): void {
+    if (isIslander(target)) {
+      const at = centre(target);
+      this.face(at.x - this.hero.x, at.y - this.hero.y);
+    } else {
+      this.facing = 'up';
+    }
+    this.events.open(target);
   }
 
   lantern(): void {
@@ -148,6 +167,7 @@ export class Game {
     const g = canvas.getContext('2d')!;
     g.drawImage(this.ground, 0, 0);
     for (const p of PLACES) drawPlace(g, p, 0);
+    for (const p of ISLANDERS) drawIslander(g, p, this.hero.x, this.met.has(p.id), 0);
     for (const p of PLACES) {
       if (p.quest) drawBeacon(g, p, this.lit.has(p.id), 0);
     }
@@ -157,7 +177,7 @@ export class Game {
     g.fillRect(this.hero.x - 6, this.hero.y - 6, 12, 12);
   }
 
-  private walkTo(tile: Point, destination: Place | null, speed: number): void {
+  private walkTo(tile: Point, destination: Target | null, speed: number): void {
     const route = findPath(tileOf(this.hero), tile);
     if (!route) return;
     this.route = [...route.map(centre), centre(tile)];
@@ -195,6 +215,14 @@ export class Game {
       y: ((e.clientY - rect.top) * this.canvas.height) / rect.height / this.scale + this.camera.y,
     };
 
+    const person = ISLANDERS.find(p => {
+      const feet = centre(p);
+      return Math.abs(at.x - feet.x) < 11 && at.y > feet.y - 36 && at.y < feet.y + 5;
+    });
+    if (person) {
+      this.walkTo(person.stand, person, WALK * 1.4);
+      return;
+    }
     // Roofs stand above the footprint, so they count as the building too.
     const place = PLACES.find(p =>
       at.x >= p.x * T && at.x < (p.x + p.w) * T && at.y >= p.y * T - 20 && at.y < (p.y + p.h) * T);
@@ -257,10 +285,9 @@ export class Game {
       }
     }
     if (!this.route.length && this.destination) {
-      const place = this.destination;
+      const target = this.destination;
       this.stop();
-      this.facing = 'up';
-      this.events.open(place);
+      this.arrive(target);
     }
   }
 
@@ -297,7 +324,15 @@ export class Game {
     else if (this.route.length || this.destination) this.moveByRoute(dt);
     if (this.moving) this.step += dt * 8;
 
-    const near = PLACES.find(p => distance(centre(doorOf(p)), this.hero) < 18) ?? null;
+    let near: Target | null = null;
+    let closest = 1; // as a fraction of each target's reach
+    for (const t of [...ISLANDERS, ...PLACES]) {
+      const d = isIslander(t) ? distance(centre(t), this.hero) / 25 : distance(centre(doorOf(t)), this.hero) / 18;
+      if (d < closest) {
+        closest = d;
+        near = t;
+      }
+    }
     if (near !== this.nearby) {
       this.nearby = near;
       this.events.near(near);
@@ -384,6 +419,9 @@ export class Game {
         },
       });
     }
+    for (const p of ISLANDERS) {
+      sprites.push({ y: centre(p).y, draw: () => drawIslander(g, p, this.hero.x, this.met.has(p.id), this.time) });
+    }
     for (const bug of this.bugs) {
       sprites.push({ y: bug.y, draw: () => drawBug(g, bug.x, bug.y, this.time) });
     }
@@ -429,6 +467,19 @@ export class Game {
       g.fillStyle = '#14213d';
       g.fillRect(x - width / 2, y - 11 * dpr, width, 22 * dpr);
       g.fillStyle = this.lit.has(p.id) ? '#fac775' : '#fff8e7';
+      g.fillText(p.name, x, y);
+    }
+    // People are named under their feet, and only up close.
+    g.font = `700 ${12 * dpr}px ui-monospace, Menlo, Consolas, monospace`;
+    for (const p of ISLANDERS) {
+      const feet = centre(p);
+      if (distance(feet, this.hero) > 60) continue;
+      const x = (feet.x - cx) * scale;
+      const y = (feet.y - cy) * scale + 14 * dpr;
+      const width = g.measureText(p.name).width + 10 * dpr;
+      g.fillStyle = '#fff8e7';
+      g.fillRect(x - width / 2, y - 9 * dpr, width, 18 * dpr);
+      g.fillStyle = '#14213d';
       g.fillText(p.name, x, y);
     }
   }
